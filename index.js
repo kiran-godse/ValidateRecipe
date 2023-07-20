@@ -23,16 +23,16 @@ function readRecipe(data) {
   console.log('Substrate data:', data.substrate);
 }
 
-// Read the JSON file content
-const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
-const recipeData = JSON.parse(jsonContent);
-
-// Remove the $schema keyword from the schema
-//const schema //put it main function
-// Read the JSON file path from the input
-const jsonFilePath = _core.getInput("json-file");
-= require('./.schema/recipe.json');
-delete schema['$schema'];
+async function main(_core, _github){
+    try{
+        const jsonFilePath = _core.getInput("json-file");
+        delete schema['$schema'];
+        // Read the JSON file content
+        const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
+        
+     // Read the JSON file path from the input
+        const recipeData = _core.getInput("recipe-file");
+        
 
 // Fix the schema object to remove unsupported custom keyword "cname"
 delete schema.properties.package.properties.name.cname;
@@ -40,7 +40,17 @@ delete schema.properties.package.properties.name.cname;
 // Fix the schema object to set the "uniqueItems" keyword to boolean true
 schema.properties.package.properties.platforms.uniqueItems = true;
 
-validateRecipe(recipeData, schema); //proper variable names required
+validateRecipe(recipeData, schema); 
 readRecipe(recipeData);
-//call main function kar
-module.exports = { validateRecipe, readRecipe };
+
+
+    }catch (error){
+        _core.setFailed(`Action failed with error: ${error}`);
+    }
+}
+
+
+
+
+main(core, github);
+module.exports = { main };
