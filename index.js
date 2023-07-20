@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const Ajv = require('ajv');
-const ajvKeywords = require('ajv-keywords');
+const ajvKeywords = require('ajv-keywords/keywords/regexp'); // Update the import statement
 
 async function main() {
   try {
@@ -28,7 +28,7 @@ async function main() {
     core.setOutput('json', jsonContent);
 
     // Set the validation status as an output
-    core.setOutput('isValid', isValid);
+    core.setOutput('isValid', isValid.toString()); // Convert boolean to string for output
   } catch (error) {
     core.setFailed(`Action failed with error: ${error.message}`);
   }
@@ -36,7 +36,7 @@ async function main() {
 
 function validateRecipe(data, schema) {
   const ajv = new Ajv.default({ allErrors: true });
-  ajvKeywords(ajv, ['regexp']);
+  ajvKeywords(ajv); // Call the imported function directly
   const validate = ajv.compile(schema);
   const isValid = validate(data);
 
