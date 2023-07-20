@@ -1,17 +1,18 @@
-name: 'Recipe Validation'
-description: 'Validates a recipe JSON file against a JSON schema'
-
+name: Custom Recipe Reader
+description: Custom GitHub Action to read recipe.json file
 inputs:
-  recipe-file:
-    description: 'The path to the recipe JSON file to validate and read'
+  json-file:
+    description: 'Path to the JSON file'
     required: true
-    default: './recipes/cmake.json'
 
   schema-file:
-    description: 'The path to the JSON schema file'
+    description: 'Path to the JSON schema file for validation'
     required: true
-    default: './.schema/recipe.json'
+
+outputs:
+  json:
+    description: 'JSON content'
 
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'index.js'
