@@ -1,18 +1,15 @@
 name: Custom Recipe Reader
-description: Custom GitHub Action to read recipe.json file
+description: Custom GitHub Action to read recipe.json file and validate against the provided schema
 inputs:
   json-file:
-    description: 'Path to the JSON file'
+    description: 'Path to the recipe JSON file'
     required: true
-
   schema-file:
-    description: 'Path to the JSON schema file for validation'
+    description: 'Path to the JSON schema file'
     required: true
-
 outputs:
   json:
     description: 'JSON content'
-
 runs:
   using: 'node16'
   main: 'index.js'
