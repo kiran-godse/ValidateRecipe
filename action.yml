@@ -1,0 +1,10 @@
+name: 'Run Node.js Script'
+description: 'Runs the Node.js script for recipe validation'
+inputs:
+  recipe-file:
+    description: 'The path to the recipe JSON file to validate and read'
+    required: true
+    default: './recipes/cmake.json'
+runs:
+  using: 'node12'
+  main: 'index.js'
