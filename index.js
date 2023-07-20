@@ -1,5 +1,5 @@
-const core = require("@actions/core");
 const github = require("@actions/github");
+const core = require('@actions/core');
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
 const fs = require('fs');
