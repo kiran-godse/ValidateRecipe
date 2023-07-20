@@ -1,8 +1,38 @@
-const github = require("@actions/github");
 const core = require('@actions/core');
+const fs = require('fs');
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
-const fs = require('fs');
+
+async function main() {
+  try {
+    // Read the JSON file path from the input
+    const jsonFilePath = core.getInput('json-file');
+    const schemaFilePath = core.getInput('schema-file');
+
+    // Read the JSON file content
+    const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
+
+    // Read the schema file content
+    const schemaContent = fs.readFileSync(schemaFilePath, 'utf8');
+
+    // Parse JSON content into an object
+    const jsonData = JSON.parse(jsonContent);
+
+    // Parse JSON schema content into an object
+    const jsonSchema = JSON.parse(schemaContent);
+
+    // Validate the JSON data against the schema
+    const isValid = validateRecipe(jsonData, jsonSchema);
+
+    // Set the JSON content as an output
+    core.setOutput('json', jsonContent);
+
+    // Set the validation status as an output
+    core.setOutput('isValid', isValid);
+  } catch (error) {
+    core.setFailed(`Action failed with error: ${error.message}`);
+  }
+}
 
 function validateRecipe(data, schema) {
   const ajv = new Ajv.default({ allErrors: true });
@@ -23,16 +53,16 @@ function readRecipe(data) {
   console.log('Substrate data:', data.substrate);
 }
 
-async function main(_core, _github){
-    try{
-        const jsonFilePath = _core.getInput("json-file");
-        delete schema['$schema'];
-        // Read the JSON file content
-        const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
-        
-     // Read the JSON file path from the input
-        const recipeData = _core.getInput("recipe-file");
-        
+// Read the JSON file content
+const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
+const recipeData = JSON.parse(jsonContent);
+
+// Remove the $schema keyword from the schema
+//const schema //put it main function
+// Read the JSON file path from the input
+const jsonFilePath = _core.getInput("json-file");
+= require('./.schema/recipe.json');
+delete schema['$schema'];
 
 // Fix the schema object to remove unsupported custom keyword "cname"
 delete schema.properties.package.properties.name.cname;
@@ -40,17 +70,7 @@ delete schema.properties.package.properties.name.cname;
 // Fix the schema object to set the "uniqueItems" keyword to boolean true
 schema.properties.package.properties.platforms.uniqueItems = true;
 
-validateRecipe(recipeData, schema); 
+validateRecipe(recipeData, schema); //proper variable names required
 readRecipe(recipeData);
-
-
-    }catch (error){
-        _core.setFailed(`Action failed with error: ${error}`);
-    }
-}
-
-
-
-
-main(core, github);
-module.exports = { main };
+//call main function kar
+module.exports = { validateRecipe, readRecipe };

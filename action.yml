@@ -1,12 +1,18 @@
-name: 'Run Node.js Script'
-description: 'Runs the Node.js script for recipe validation'
+name: Custom Recipe Reader
+description: Custom GitHub Action to read recipe.json file
 inputs:
-  recipe-file:
-    description: 'The path to the recipe JSON file to validate and read'
+  json-file:
+    description: 'Path to the JSON file'
     required: true
+
+  schema-file:
+    description: 'Path to the JSON schema file for validation'
+    required: true
+
 outputs:
   json:
-    description: 'Valid file '
+    description: 'JSON content'
+
 runs:
   using: 'node16'
   main: 'index.js'
