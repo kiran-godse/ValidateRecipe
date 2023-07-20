@@ -1,46 +1,56 @@
-const github = require("@actions/github");
-const core = require('@actions/core');
-const Ajv = require('ajv');
-const ajvKeywords = require('ajv-keywords');
-const fs = require('fs');
+const core = require("@actions/core");
+const Ajv = require("ajv");
+const ajvKeywords = require("ajv-keywords");
+const fs = require("fs");
 
 function validateRecipe(data, schema) {
   const ajv = new Ajv.default({ allErrors: true });
-  ajvKeywords(ajv, ['regexp']);
+  ajvKeywords(ajv, ["regexp"]);
   const validate = ajv.compile(schema);
   const isValid = validate(data);
 
   if (isValid) {
-    console.log('Recipe is valid!');
+    console.log("Recipe is valid!");
     return true;
   } else {
-    console.log('Recipe is invalid:', validate.errors);
+    console.log("Recipe is invalid:", validate.errors);
     return false;
   }
 }
 
 function readRecipe(data) {
-  console.log('Substrate data:', data.substrate);
+  console.log("Substrate data:", data.substrate);
 }
 
-// Read the JSON file content
-const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
-const recipeData = JSON.parse(jsonContent);
+async function main() {
+  try {
+    // Read the JSON file path from the input
+    const jsonFilePath = core.getInput("recipe-file");
 
-// Remove the $schema keyword from the schema
-//const schema //put it main function
-// Read the JSON file path from the input
-const jsonFilePath = _core.getInput("json-file");
-= require('./.schema/recipe.json');
-delete schema['$schema'];
+    // Read the schema file path from the input
+    const schemaFilePath = core.getInput("schema-file");
 
-// Fix the schema object to remove unsupported custom keyword "cname"
-delete schema.properties.package.properties.name.cname;
+    // Read the JSON file content
+    const recipeData = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
 
-// Fix the schema object to set the "uniqueItems" keyword to boolean true
-schema.properties.package.properties.platforms.uniqueItems = true;
+    // Import the JSON schema from the file
+    const schema = require(schemaFilePath);
 
-validateRecipe(recipeData, schema); //proper variable names required
-readRecipe(recipeData);
-//call main function kar
-module.exports = { validateRecipe, readRecipe };
+    // Remove the $schema keyword from the schema
+    delete schema["$schema"];
+
+    // Fix the schema object to remove unsupported custom keyword "cname"
+    delete schema.properties.package.properties.name.cname;
+
+    // Fix the schema object to set the "uniqueItems" keyword to boolean true
+    schema.properties.package.properties.platforms.uniqueItems = true;
+
+    validateRecipe(recipeData, schema);
+    readRecipe(recipeData);
+  } catch (error) {
+    core.setFailed(`Action failed with error: ${error}`);
+  }
+}
+
+main();
+module.exports = { main };
