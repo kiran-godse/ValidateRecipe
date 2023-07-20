@@ -1,12 +1,17 @@
-name: 'Run Node.js Script'
-description: 'Runs the Node.js script for recipe validation'
+name: 'Recipe Validation'
+description: 'Validates a recipe JSON file against a JSON schema'
+
 inputs:
   recipe-file:
     description: 'The path to the recipe JSON file to validate and read'
     required: true
-outputs:
-  json:
-    description: 'Valid file '
+    default: './recipes/cmake.json'
+
+  schema-file:
+    description: 'The path to the JSON schema file'
+    required: true
+    default: './.schema/recipe.json'
+
 runs:
-  using: 'node16'
+  using: 'node12'
   main: 'index.js'
