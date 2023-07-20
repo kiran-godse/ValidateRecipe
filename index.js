@@ -3,7 +3,7 @@ const fs = require("fs");
 const Ajv = require("ajv");
 const ajvKeywords = require("ajv-keywords");
 
-// Load the JSON schema from the file
+// Load the JSON schema from the file 
 const schemaFilePath = core.getInput("schema-file");
 const schema = require(schemaFilePath);
 
@@ -21,7 +21,7 @@ function validateRecipe(data, schema) {
     return false;
   }
 }
-
+// to get substrate data
 function readRecipe(data) {
   console.log("Substrate data:", data.substrate);
 }
