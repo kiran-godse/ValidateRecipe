@@ -1,15 +1,18 @@
-name: Custom Recipe Reader
-description: Custom GitHub Action to read recipe.json file and validate against the provided schema
+# action.yml
+name: Validate Recipe
+description: Validate a recipe file using the provided schema.
 inputs:
   json-file:
-    description: 'Path to the recipe JSON file'
+    description: 'Path to the JSON file to validate.'
     required: true
   schema-file:
-    description: 'Path to the JSON schema file'
+    description: 'Path to the schema file for validation.'
     required: true
 outputs:
   json:
-    description: 'JSON content'
+    description: 'The content of the JSON file.'
+  isValid:
+    description: 'The validation status (true or false).'
 runs:
-  using: 'node16'
+  using: 'node12'
   main: 'index.js'
