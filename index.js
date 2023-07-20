@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const Ajv = require('ajv');
-const ajvKeywords = require('ajv-keywords/keywords/regexp'); // Update the import statement
+const ajvKeywords = require('ajv-keywords/keywords/regexp');
 
 async function main() {
   try {
@@ -35,16 +35,21 @@ async function main() {
 }
 
 function validateRecipe(data, schema) {
-  const ajv = new Ajv.default({ allErrors: true });
-  ajvKeywords(ajv); // Call the imported function directly
-  const validate = ajv.compile(schema);
-  const isValid = validate(data);
+  try {
+    const ajv = new Ajv.default({ allErrors: true });
+    ajvKeywords(ajv); // Call the imported function directly
+    const validate = ajv.compile(schema);
+    const isValid = validate(data);
 
-  if (isValid) {
-    console.log('Recipe is valid!');
-    return true;
-  } else {
-    console.log('Recipe is invalid:', validate.errors);
+    if (isValid) {
+      console.log('Recipe is valid!');
+      return true;
+    } else {
+      console.log('Recipe is invalid:', validate.errors);
+      return false;
+    }
+  } catch (error) {
+    console.log('Error occurred during validation:', error.message);
     return false;
   }
 }
