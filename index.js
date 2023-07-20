@@ -1,3 +1,5 @@
+const core = require("@actions/core");
+const github = require("@actions/github");
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
 const fs = require('fs');
@@ -22,7 +24,7 @@ function readRecipe(data) {
 }
 
 // Read the JSON file path from the input
-const jsonFilePath = process.env.INPUT_RECIPE_FILE || './recipes/cmake.json';
+const jsonFilePath = _core.getInput("json-file");
 
 // Read the JSON file content
 const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
