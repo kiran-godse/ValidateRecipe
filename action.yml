@@ -5,6 +5,9 @@ inputs:
     description: 'The path to the recipe JSON file to validate and read'
     required: true
     default: './recipes/cmake.json'
+outputs:
+  json:
+    description: 'Valid file '
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'index.js'
