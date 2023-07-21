@@ -27,7 +27,7 @@ async function main(_core) {
 
     // Parse JSON schema content into an object
     const jsonSchema = JSON.parse(schemaContent);
-    delete schemaContent['$schema']
+//    delete schemaContent['$schema']
 
     // Validate the JSON data against the schema
     const isValid = validateRecipe(jsonData, jsonSchema);
