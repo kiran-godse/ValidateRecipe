@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const fs = require('fs');
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
-delete schema['$schema'];
+
 
 const ajv = new Ajv.default({ allErrors: true });
 ajvKeywords(ajv, ['regexp']);
