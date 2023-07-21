@@ -1,7 +1,10 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const Ajv = require('ajv');
-const ajvKeywords = require('ajv-keywords/keywords/regexp');
+const ajvKeywords = require('ajv-keywords');
+
+const ajv = new Ajv.default({ allErrors: true });
+ajvKeywords(ajv, ['regexp']);
 
 async function main(_core) {
   try {
