@@ -66,10 +66,7 @@ function validateRecipe(data, schema) {
 }
 
 function readRecipe(data) {
-  const isValid = validateRecipe(data);
-  if (isValid) {
-    console.log('Substrate data:', data.substrate);
-  }
+  console.log('Substrate data:', data.substrate);
 }
 
 main(core);
