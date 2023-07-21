@@ -18,6 +18,7 @@ async function main(_core) {
 
     // Read the schema file content
     const schemaContent = fs.readFileSync(schemaFilePath, 'utf8');
+    delete schemaContent['$schema'];
 
     // Parse JSON content into an object
     const jsonData = JSON.parse(jsonContent);
